@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN Data Portal | MoMo Powered</title>
+    <style>
+        :root { --mtn-yellow: #FDCC00; --mtn-blue: #004F9F; --promo-red: #E31837; }
+        body { font-family: 'Arial', sans-serif; background: #f4f4f4; margin: 0; }
+        .promo-banner { background: var(--promo-red); color: white; text-align: center; padding: 12px; font-weight: bold; }
+        header { background: var(--mtn-yellow); padding: 20px; text-align: center; border-bottom: 4px solid var(--mtn-blue); }
+        
+        .container { max-width: 500px; margin: 20px auto; padding: 0 15px; }
+        
+        /* Phone Input Section */
+        .login-box { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid var(--mtn-yellow); }
+        .login-box label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
+        .login-box input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .error-msg { color: var(--promo-red); font-size: 0.8rem; margin-top: 5px; display: none; }
+
+        /* Data Cards */
+        .card { background: white; border-radius: 12px; margin-bottom: 15px; padding: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; opacity: 0.5; pointer-events: none; transition: 0.3s; }
+        .card.active { opacity: 1; pointer-events: auto; border: 1px solid var(--mtn-yellow); }
+        
+        .old-p { text-decoration: line-through; color: #aaa; font-size: 0.9rem; }
+        .new-p { font-size: 1.4rem; font-weight: 900; display: block; }
+        
+        .btn { background: #e0e0e0; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: not-allowed; transition: 0.3s; }
+        .card.active .btn { background: var(--mtn-yellow); cursor: pointer; }
+
+        footer { text-align: center; background: white; padding: 30px; border-top: 1px solid #ddd; margin-top: 50px; }
+        .naspers { color: #002e5d; font-weight: bold; }
+        .momo { color: #f7941d; font-weight: 900; }
+    </style>
+</head>
+<body>
+
+<div class="promo-banner">SALE: 25% OFF BUNDLES (ZA ONLY)</div>
+
+<header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/MTN_Logo.svg" width="50">
+    <h2 style="margin: 10px 0 0;">RECHARGE PORTAL</h2>
+</header>
+
+<div class="container">
+    <div class="login-box">
+        <label>Enter MTN South Africa Number</label>
+        <input type="tel" id="phoneInput" placeholder="e.g. 0831234567" maxlength="10">
+        <div id="error" class="error-msg">Please enter a valid 10-digit SA number (06, 07, 08)</div>
+    </div>
+
+    <div class="card" id="card1">
+        <div>
+            <h3 style="margin:0">500MB Daily</h3>
+            <p style="margin:5px 0; font-size:0.8rem; color: #666;">Valid for 24 Hours</p>
+        </div>
+        <div style="text-align:right">
+            <span class="old-p">R35.00</span>
+            <span class="new-p">R26.25</span>
+            <button class="btn">RECHARGE</button>
+        </div>
+    </div>
+
+    <div class="card" id="card2">
+        <div>
+            <h3 style="margin:0">10GB BozzaGigs</h3>
+            <p style="margin:5px 0; font-size:0.8rem; color: #666;">5GB + 5GB Night | 30 Days</p>
+        </div>
+        <div style="text-align:right">
+            <span class="old-p">R99.00</span>
+            <span class="new-p">R74.25</span>
+            <button class="btn">RECHARGE</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p style="font-size: 0.7rem; color: #999;">POWERED BY</p>
+    <div class="naspers">NASPERS LTD</div>
+    <div class="momo">MoMo</div>
+</footer>
+
+<script>
+    const phoneInput = document.getElementById('phoneInput');
+    const cards = document.querySelectorAll('.card');
+    const errorMsg = document.getElementById('error');
+
+    phoneInput.addEventListener('input', function() {
+        // Regex: Starts with 0, followed by 6, 7, or 8, then 8 more digits
+        const saRegex = /^0(6|7|8)\d{8}$/;
+        
+        if (saRegex.test(phoneInput.value)) {
+            errorMsg.style.display = 'none';
+            cards.forEach(card => card.classList.add('active'));
+        } else {
+            if(phoneInput.value.length === 10) {
+                errorMsg.style.display = 'block';
+            }
+            cards.forEach(card => card.classList.remove('active'));
+        }
+    });
+</script>
+
+</body>
+</html>
