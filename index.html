@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN MoMo Data Sales</title>
+    <style>
+        :root { --mtn-yellow: #FDCC00; --mtn-blue: #004F9F; --promo-red: #E31837; }
+        body { font-family: 'Arial', sans-serif; background: #f4f4f4; margin: 0; }
+        .promo-banner { background: var(--promo-red); color: white; text-align: center; padding: 12px; font-weight: bold; }
+        header { background: var(--mtn-yellow); padding: 25px; text-align: center; border-bottom: 4px solid var(--mtn-blue); }
+        .container { max-width: 450px; margin: 20px auto; padding: 0 15px; }
+
+        /* Step 1: Login Box */
+        .step-box { background: white; padding: 25px; border-radius: 15px; border: 2px solid var(--mtn-yellow); box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        .step-box h3 { margin-bottom: 15px; font-size: 1.1rem; }
+        input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 1.2rem; box-sizing: border-box; text-align: center; margin-bottom: 15px; }
+        
+        .next-btn { width: 100%; background: var(--mtn-yellow); border: none; padding: 15px; border-radius: 30px; font-weight: bold; font-size: 1rem; cursor: pointer; display: block; border: 1px solid #e6b800; }
+        .next-btn:disabled { background: #eee; cursor: not-allowed; color: #aaa; border: none; }
+
+        /* Step 2: Data List (Hidden by default) */
+        #dataList { display: none; margin-top: 20px; }
+        .card { background: white; border-radius: 12px; margin-bottom: 10px; padding: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; }
+        .old-p { text-decoration: line-through; color: #aaa; font-size: 0.85rem; }
+        .new-p { font-size: 1.2rem; font-weight: 900; display: block; }
+        .recharge-btn { background: var(--mtn-yellow); border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid #ddd; margin-top: 50px; background: #fff; }
+        .naspers { color: #002e5d; font-weight: bold; }
+        .momo { color: #f7941d; font-weight: 900; }
+        .error { color: var(--promo-red); font-size: 0.8rem; margin-bottom: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="promo-banner">SALE: 25% OFF EXCLUSIVE APP DEALS</div>
+
+<header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/MTN_Logo.svg" width="60">
+    <h2 style="margin:10px 0 0;">MoMo Recharge</h2>
+</header>
+
+<div class="container">
+    <div class="step-box" id="step1">
+        <h3>Enter your MTN Number to see deals</h3>
+        <input type="tel" id="phoneInput" placeholder="083 123 4567" maxlength="10">
+        <div id="errorMsg" class="error">⚠️ Enter a valid 10-digit SA number</div>
+        <button class="next-btn" id="nextBtn" disabled>NEXT</button>
+    </div>
+
+    <div id="dataList">
+        <p style="text-align:center; font-weight:bold; color:var(--mtn-blue);">Deals for <span id="displayNum"></span></p>
+        
+        <div class="card">
+            <div><h3>100MB Daily</h3><p style="font-size:0.7rem">24 Hours</p></div>
+            <div style="text-align:right"><span class="old-p">R15.00</span><span class="new-p">R11.25</span><button class="recharge-btn">BUY</button></div>
+        </div>
+
+        <div class="card">
+            <div><h3>500MB Daily</h3><p style="font-size:0.7rem">24 Hours</p></div>
+            <div style="text-align:right"><span class="old-p">R35.00</span><span class="new-p">R26.25</span><button class="recharge-btn">BUY</button></div>
+        </div>
+
+        <div class="card">
+            <div><h3>10GB Bozza</h3><p style="font-size:0.7rem">30 Days (5+5)</p></div>
+            <div style="text-align:right"><span class="old-p">R99.00</span><span class="new-p">R74.25</span><button class="recharge-btn">BUY</button></div>
+        </div>
+
+        <div class="card">
+            <div><h3>20GB Bozza</h3><p style="font-size:0.7rem">30 Days (10+10)</p></div>
+            <div style="text-align:right"><span class="old-p">R149.00</span><span class="new-p">R111.75</span><button class="recharge-btn">BUY</button></div>
+        </div>
+
+        <div class="card" style="border-left:4px solid var(--mtn-blue)">
+            <div><h3>5GB SuperFlex</h3><p style="font-size:0.7rem">Unlimited Calls</p></div>
+            <div style="text-align:right"><span class="old-p">R209.00</span><span class="new-p">R156.75</span><button class="recharge-btn">BUY</button></div>
+        </div>
+
+        <div class="card">
+            <div><h3>Uncapped WiFi</h3><p style="font-size:0.7rem">15Mbps Monthly</p></div>
+            <div style="text-align:right"><span class="old-p">R339.00</span><span class="new-p">R254.25</span><button class="recharge-btn">BUY</button></div>
+        </div>
+        
+        <button class="next-btn" style="margin-top:20px; background:#f0f0f0; border:1px solid #ccc;" onclick="location.reload()">CHANGE NUMBER</button>
+    </div>
+</div>
+
+<footer>
+    <p style="font-size:0.7rem; color:#888;">POWERED BY</p>
+    <div class="naspers">NASPERS LTD</div>
+    <div class="momo">MoMo</div>
+</footer>
+
+<script>
+    const phoneInput = document.getElementById('phoneInput');
+    const nextBtn = document.getElementById('nextBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const step1 = document.getElementById('step1');
+    const dataList = document.getElementById('dataList');
+    const displayNum = document.getElementById('displayNum');
+
+    // Enable/Disable "Next" button based on SA number format
+    phoneInput.addEventListener('input', function() {
+        const saRegex = /^0(6|7|8)\d{8}$/;
+        if (saRegex.test(phoneInput.value)) {
+            nextBtn.disabled = false;
+            errorMsg.style.display = 'none';
+        } else {
+            nextBtn.disabled = true;
+            if(phoneInput.value.length === 10) errorMsg.style.display = 'block';
+        }
+    });
+
+    // Handle "Next" click
+    nextBtn.addEventListener('click', function() {
+        displayNum.innerText = phoneInput.value;
+        step1.style.display = 'none';
+        dataList.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
